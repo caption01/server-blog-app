@@ -32,7 +32,10 @@ const app = async () => {
     scalarsMap: [{ type: GraphQLScalarType, scalar: DateTimeResolver }],
   });
 
-  new ApolloServer({ schema, context }).listen({ port: 4000 }, () =>
+  new ApolloServer({
+    schema,
+    context: (args) => context(args),
+  }).listen({ port: 4000 }, () =>
     console.log(`🚀 Server ready at: http://localhost:4000 ⭐️`)
   );
 };
