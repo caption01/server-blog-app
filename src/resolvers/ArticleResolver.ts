@@ -10,23 +10,8 @@ import {
   Field,
 } from "type-graphql";
 
-import { Article } from "../model/Article";
+import { Article, Articlenput } from "../model/article/Article";
 import { Context } from "../context";
-
-@InputType()
-export class ArticleCreateInput {
-  @Field()
-  title: string;
-
-  @Field()
-  image: string;
-
-  @Field((type) => [String])
-  description: string[] | [];
-
-  @Field((type) => String, { nullable: true })
-  link: string;
-}
 
 @Resolver(Article)
 export class ArticleResolver {
@@ -43,10 +28,7 @@ export class ArticleResolver {
   }
 
   @Mutation((returns) => Article)
-  async createArticle(
-    @Arg("data") data: ArticleCreateInput,
-    @Ctx() ctx: Context
-  ) {
+  async createArticle(@Arg("data") data: Articlenput, @Ctx() ctx: Context) {
     return await ctx.prisma.article.create({
       data: {
         title: data.title,

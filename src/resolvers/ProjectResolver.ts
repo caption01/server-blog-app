@@ -12,26 +12,8 @@ import {
   Field,
 } from "type-graphql";
 
-import { Project } from "../model/Project";
+import { Project, ProjectInput } from "../model/project/Project";
 import { Context } from "../context";
-
-@InputType()
-export class ProjectCreateInput {
-  @Field()
-  title: string;
-
-  @Field()
-  image: string;
-
-  @Field((type) => [String])
-  description: string[] | [];
-
-  @Field((type) => String, { nullable: true })
-  link: string | null;
-
-  @Field((type) => [String])
-  tools: string[] | [];
-}
 
 @Resolver(Project)
 export class ProjectResolver {
@@ -48,10 +30,7 @@ export class ProjectResolver {
   }
 
   @Mutation((returns) => Project)
-  async createProject(
-    @Arg("data") data: ProjectCreateInput,
-    @Ctx() ctx: Context
-  ) {
+  async createProject(@Arg("data") data: ProjectInput, @Ctx() ctx: Context) {
     return ctx.prisma.project.create({
       data: {
         title: data.title,

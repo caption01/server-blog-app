@@ -4,14 +4,7 @@ import { ApolloServer } from "apollo-server";
 import { DateTimeResolver } from "graphql-scalars";
 import { GraphQLScalarType } from "graphql";
 
-import {
-  ProjectCreateInput,
-  ProjectResolver,
-  ArticleCreateInput,
-  ArticleResolver,
-  UserCreateInput,
-  UserResolver,
-} from "./resolvers";
+import { ProjectResolver, ArticleResolver, UserResolver } from "./resolvers";
 import { SortOrder } from "./types";
 import { context } from "./context";
 
@@ -21,14 +14,7 @@ const app = async () => {
   });
 
   const schema = await tq.buildSchema({
-    resolvers: [
-      ProjectCreateInput,
-      ProjectResolver,
-      ArticleCreateInput,
-      ArticleResolver,
-      UserCreateInput,
-      UserResolver,
-    ],
+    resolvers: [ProjectResolver, ArticleResolver, UserResolver],
     scalarsMap: [{ type: GraphQLScalarType, scalar: DateTimeResolver }],
   });
 

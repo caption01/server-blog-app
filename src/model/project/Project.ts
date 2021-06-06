@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { ObjectType, Field, ID } from "type-graphql";
+import { ObjectType, Field, ID, InputType } from "type-graphql";
 
 @ObjectType()
 export class Project {
@@ -26,4 +26,22 @@ export class Project {
 
   @Field((type) => Date)
   updatedAt: Date;
+}
+
+@InputType()
+export class ProjectInput {
+  @Field()
+  title: string;
+
+  @Field()
+  image: string;
+
+  @Field((type) => [String])
+  description: string[] | [];
+
+  @Field((type) => String, { nullable: true })
+  link: string | null;
+
+  @Field((type) => [String])
+  tools: string[] | [];
 }

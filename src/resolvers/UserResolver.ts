@@ -10,34 +10,14 @@ import {
   Int,
 } from "type-graphql";
 
-import { User } from "../model/User";
+import { User, UserInput } from "../model/user/User";
 import { Context } from "../context";
-@InputType()
-export class UserCreateInput {
-  @Field()
-  email: string;
-
-  @Field({ nullable: true })
-  name: string;
-
-  @Field()
-  password: string;
-}
-
-@InputType()
-export class UserSignin {
-  @Field()
-  email: string;
-
-  @Field()
-  password: string;
-}
 
 @Resolver(User)
 export class UserResolver {
   @Mutation((returns) => User)
   async signupUser(
-    @Arg("data") data: UserCreateInput,
+    @Arg("data") data: UserInput,
     @Ctx() ctx: Context
   ): Promise<User> {
     return await ctx.prisma.user.create({
@@ -51,7 +31,7 @@ export class UserResolver {
 
   @Mutation((returns) => User, { nullable: true })
   async signinUser(
-    @Arg("data") data: UserSignin,
+    @Arg("data") data: UserInput,
     @Ctx() ctx: Context
   ): Promise<User | null> {
     const existingUser = await ctx.prisma.user.findUnique({
