@@ -9,6 +9,7 @@
     "lib": ["esnext", "ESNext.AsyncIterable", "DOM"],
     "esModuleInterop": true,
     "strictPropertyInitialization": false,
+    "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true

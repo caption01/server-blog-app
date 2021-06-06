@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import * as tq from "type-graphql";
+import { buildSchema, registerEnumType } from "type-graphql";
 import { ApolloServer } from "apollo-server";
 import { DateTimeResolver } from "graphql-scalars";
 import { GraphQLScalarType } from "graphql";
@@ -9,11 +9,11 @@ import { SortOrder } from "./types";
 import { context } from "./context";
 
 const app = async () => {
-  tq.registerEnumType(SortOrder, {
+  registerEnumType(SortOrder, {
     name: "SortOrder",
   });
 
-  const schema = await tq.buildSchema({
+  const schema = await buildSchema({
     resolvers: [ProjectResolver, ArticleResolver, UserResolver],
     scalarsMap: [{ type: GraphQLScalarType, scalar: DateTimeResolver }],
   });

@@ -6,10 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --no-notify --respawn --transpile-only src/index.ts",
-    "docker-up": "docker-compose up --build -d",
-    "docker-down": "docker-compose dow --build -d",
-    "migrate-dev": "npx prisma migrate dev",
-    "migrate-prod": "npx prisma migrate deploy"
+    "docker:up": "docker-compose up --build -d",
+    "docker:down": "docker-compose dow --build -d",
+    "migrate:dev": "npx prisma migrate dev",
+    "migrate:prod": "npx prisma migrate deploy"
   },
   "prisma": {
     "schema": "./prisma/schema.prisma"

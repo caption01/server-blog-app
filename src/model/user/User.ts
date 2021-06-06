@@ -1,29 +1,36 @@
 import "reflect-metadata";
-import { ObjectType, Field, ID, InputType } from "type-graphql";
-import { IsEmail } from "class-validator";
+import { ObjectType, Field, ID, InputType, Root } from "type-graphql";
+import { IsEmail, Length } from "class-validator";
+
+import { IsEmailExist } from "./isEmailExist";
 
 @ObjectType()
 export class User {
-  @Field((type) => ID)
+  @Field(() => ID)
   id: number;
 
   @Field()
-  @IsEmail()
   email: string;
 
   @Field()
   password: string;
 
-  @Field((type) => String, { nullable: true })
+  @Field(() => String || null)
   name?: string | null;
+
+  @Field()
+  welcomeMsg?: string;
 }
 
 @InputType()
 export class UserInput {
   @Field()
+  @IsEmail()
+  @IsEmailExist()
   email: string;
 
   @Field({ nullable: true })
+  @Length(1, 255)
   name: string;
 
   @Field()

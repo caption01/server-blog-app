@@ -5,9 +5,9 @@ import {
   Mutation,
   Arg,
   Ctx,
-  InputType,
-  Field,
   Int,
+  FieldResolver,
+  Root,
 } from "type-graphql";
 
 import { User, UserInput } from "../model/user/User";
@@ -42,8 +42,6 @@ export class UserResolver {
 
     if (!existingUser || existingUser.password !== data.password) return null;
 
-    console.log(ctx);
-
     ctx.res.setHeader("Authorization", "Bearer adasdsadsadasd");
     ctx.res.setHeader("bapp-v", "v1.0.0");
 
@@ -65,5 +63,10 @@ export class UserResolver {
         id,
       },
     });
+  }
+
+  @FieldResolver()
+  async welcomeMsg(@Root() parent: User): Promise<string> {
+    return `welcome ${parent.name}`;
   }
 }
