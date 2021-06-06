@@ -15,15 +15,15 @@ export class User {
   @Field()
   password: string;
 
-  @Field(() => String || null)
+  @Field(() => String || null, { nullable: true })
   name?: string | null;
 
-  @Field()
+  @Field({ nullable: true })
   welcomeMsg?: string;
 }
 
 @InputType()
-export class UserInput {
+export class UserSignupInput {
   @Field()
   @IsEmail()
   @IsEmailExist()
@@ -32,6 +32,16 @@ export class UserInput {
   @Field({ nullable: true })
   @Length(1, 255)
   name: string;
+
+  @Field()
+  password: string;
+}
+
+@InputType()
+export class UserSigninInput {
+  @Field()
+  @IsEmail()
+  email: string;
 
   @Field()
   password: string;
