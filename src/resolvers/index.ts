@@ -1,12 +1,5 @@
-import { ProjectResolver, ProjectCreateInput } from "./ProjectResolver";
-import { ArticleResolver, ArticleCreateInput } from "./ArticleResolver";
-import { UserResolver, UserCreateInput } from "./UserResolver";
+import { ProjectResolver } from "./ProjectResolver";
+import { ArticleResolver } from "./ArticleResolver";
+import { UserResolver } from "./user/UserResolver";
 
-export {
-  ProjectResolver,
-  ProjectCreateInput,
-  ArticleResolver,
-  ArticleCreateInput,
-  UserResolver,
-  UserCreateInput,
-};
+export { ProjectResolver, ArticleResolver, UserResolver };

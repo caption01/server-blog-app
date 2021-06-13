@@ -10,7 +10,7 @@ import {
   Field,
 } from "type-graphql";
 
-import { Article, Articlenput } from "../model/article/Article";
+import { Article, ArticleInput } from "../model/article/Article";
 import { Context } from "../context";
 
 @Resolver(Article)
@@ -28,7 +28,7 @@ export class ArticleResolver {
   }
 
   @Mutation((returns) => Article)
-  async createArticle(@Arg("data") data: Articlenput, @Ctx() ctx: Context) {
+  async createArticle(@Arg("data") data: ArticleInput, @Ctx() ctx: Context) {
     return await ctx.prisma.article.create({
       data: {
         title: data.title,

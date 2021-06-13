@@ -10,8 +10,14 @@ import {
   Root,
 } from "type-graphql";
 
-import { User, UserSignupInput, UserSigninInput } from "../model/user/User";
-import { Context } from "../context";
+import { User, UserSignupInput, UserSigninInput } from "../../model/user/User";
+import { Context } from "../../context";
+import { bcrypt, jwt } from "../../utility";
+
+const dataUserToToken = (user: User): User => ({
+  id: user.id,
+  email: user.email,
+});
 
 @Resolver(User)
 export class UserResolver {
@@ -20,13 +26,23 @@ export class UserResolver {
     @Arg("data") data: UserSignupInput,
     @Ctx() ctx: Context
   ): Promise<User> {
-    return await ctx.prisma.user.create({
+    const hashPassword = bcrypt.generateHash(data.password);
+
+    const newUser = await ctx.prisma.user.create({
       data: {
         email: data.email,
         name: data.name,
-        password: data.password,
+        password: hashPassword,
       },
     });
+
+    const tokenData = dataUserToToken(newUser);
+    const token = jwt.generateJWT(tokenData);
+
+    ctx.res.status(201);
+    ctx.res.setHeader("Authorization", `Bearer ${token}`);
+
+    return newUser;
   }
 
   @Mutation((returns) => User, { nullable: true })
@@ -40,12 +56,29 @@ export class UserResolver {
       },
     });
 
-    if (!existingUser || existingUser.password !== data.password) return null;
+    if (!existingUser) {
+      return {
+        msg: "error",
+      };
+    }
 
-    ctx.res.setHeader("Authorization", "Bearer adasdsadsadasd");
-    ctx.res.setHeader("bapp-v", "v1.0.0");
+    const isValid = bcrypt.compareHash(data.password, existingUser.password);
 
-    return existingUser;
+    if (!isValid) {
+      return {
+        msg: "error",
+      };
+    }
+
+    const tokenData = dataUserToToken(existingUser);
+    const token = jwt.generateJWT(tokenData);
+
+    ctx.res.setHeader("Authorization", `Bearer ${token}`);
+
+    return {
+      msg: "success",
+      ...existingUser,
+    };
   }
 
   @Query(() => [User])

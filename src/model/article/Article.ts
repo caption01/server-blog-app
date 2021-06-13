@@ -26,7 +26,7 @@ export class Article {
 }
 
 @InputType()
-export class Articlenput {
+export class ArticleInput {
   @Field()
   title: string;
 

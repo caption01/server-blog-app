@@ -6,20 +6,22 @@ import { IsEmailExist } from "./isEmailExist";
 
 @ObjectType()
 export class User {
-  @Field(() => ID)
-  id: number;
+  @Field(() => ID, { nullable: true })
+  id?: number;
 
-  @Field()
-  email: string;
+  @Field({ nullable: true })
+  email?: string;
 
-  @Field()
-  password: string;
+  password?: string;
 
-  @Field(() => String || null, { nullable: true })
-  name?: string | null;
+  @Field(() => String, { nullable: true })
+  name?: string;
 
   @Field({ nullable: true })
   welcomeMsg?: string;
+
+  @Field({ nullable: true })
+  msg?: string;
 }
 
 @InputType()
