@@ -8,11 +8,13 @@ import {
   Int,
   FieldResolver,
   Root,
+  UseMiddleware,
 } from "type-graphql";
 
 import { User, UserSignupInput, UserSigninInput } from "../../model/user/User";
 import { Context } from "../../context";
 import { bcrypt, jwt } from "../../utility";
+import { CheckAuth } from "./checkAuth";
 
 const dataUserToToken = (user: User): User => ({
   id: user.id,
@@ -84,6 +86,13 @@ export class UserResolver {
   @Query(() => [User])
   async getAllUsers(@Ctx() ctx: Context) {
     return await ctx.prisma.user.findMany();
+  }
+
+  @Query(() => [User])
+  @UseMiddleware(CheckAuth)
+  async me(@Ctx() ctx: Context): Promise<User | []> {
+    console.log("pass");
+    return [];
   }
 
   @Mutation((returns) => User)

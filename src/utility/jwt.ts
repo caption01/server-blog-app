@@ -13,8 +13,8 @@ export const generateJWT = (data: object): string => {
   return token;
 };
 
-export const decodeJWT = (token: string): string | object | null => {
-  const decoded = jwt.decode(token);
+export const decodeJWT = (token: string): object => {
+  const decoded = jwt.decode(token) as object;
   return decoded;
 };
 
